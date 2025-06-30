@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduSummarize - Voice-Powered PDF Summarization</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .slide {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            animation: slideIn 0.6s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            color: #2d3748;
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+        
+        h3 {
+            font-size: 1.8rem;
+            color: #4a5568;
+            margin-bottom: 1rem;
+        }
+        
+        p, li {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #2d3748;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+        }
+        
+        .hero p {
+            font-size: 1.5rem;
+            color: #4a5568;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .feature-card {
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .tech-item {
+            background: #f7fafc;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .tech-item:hover {
+            transform: translateY(-5px);
+            border-color: #667eea;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .sponsors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .sponsor-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .sponsor-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .sponsor-logo {
+            max-height: 60px;
+            max-width: 100%;
+            margin-bottom: 1rem;
+        }
+        
+        .cta {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-align: center;
+            padding: 3rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+        }
+        
+        .cta h2 {
+            color: white;
+            border: none;
+            margin-bottom: 1rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .architecture {
+            background: #f7fafc;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .flow-diagram {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+        
+        .flow-step {
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin: 0.5rem;
+            min-width: 150px;
+            text-align: center;
+        }
+        
+        .arrow {
+            font-size: 2rem;
+            color: #667eea;
+            margin: 0 1rem;
+        }
+        
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        li {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        li::before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .slide {
+                padding: 2rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .flow-diagram {
+                flex-direction: column;
+            }
+            
+            .arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Title Slide -->
+        <div class="slide hero">
+            <h1>EduSummarize</h1>
+            <p>Voice-Powered PDF Summarization for Education</p>
+            <p style="font-size: 1.2rem; color: #667eea;">Built for the Bolt Hackathon 2025</p>
+        </div>
+
+        <!-- Problem Statement -->
+        <div class="slide">
+            <h2>The Problem</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>📚 Information Overload</h3>
+                    <p>Students struggle with processing lengthy PDF documents and academic materials efficiently.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>⏰ Time Constraints</h3>
+                    <p>Limited time to read and understand complex educational content thoroughly.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🎧 Learning Preferences</h3>
+                    <p>Many learners prefer audio content but lack tools to convert text to engaging speech.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Solution -->
+        <div class="slide">
+            <h2>Our Solution</h2>
+            <p>EduSummarize transforms the learning experience by combining AI-powered summarization with natural voice synthesis, making education more accessible and engaging.</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>🤖 AI Summarization</h3>
+                    <p>Azure OpenAI GPT-4o generates intelligent, context-aware summaries</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔊 Voice Generation</h3>
+                    <p>ElevenLabs AI creates natural, engaging audio from text content</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📱 User-Friendly Interface</h3>
+                    <p>Intuitive design with drag-and-drop PDF upload and seamless processing</p>
+                </div>
+                <div class="feature-card">
+                    <h3>💰 Monetization Ready</h3>
+                    <p>RevenueCat integration with flexible subscription tiers</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tech Stack -->
+        <div class="slide">
+            <h2>Technology Stack</h2>
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <h3>Frontend</h3>
+                    <ul>
+                        <li>React 18 + TypeScript</li>
+                        <li>Tailwind CSS</li>
+                        <li>Framer Motion</li>
+                        <li>Vite Build Tool</li>
+                    </ul>
+                </div>
+                <div class="tech-item">
+                    <h3>AI & Voice</h3>
+                    <ul>
+                        <li>Azure OpenAI GPT-4o</li>
+                        <li>ElevenLabs Voice AI</li>
+                        <li>PDF.js Text Extraction</li>
+                    </ul>
+                </div>
+                <div class="tech-item">
+                    <h3>Backend Services</h3>
+                    <ul>
+                        <li>Supabase Auth & DB</li>
+                        <li>RevenueCat Subscriptions</li>
+                        <li>Netlify Hosting</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Architecture -->
+        <div class="slide">
+            <h2>System Architecture</h2>
+            <div class="architecture">
+                <div class="flow-diagram">
+                    <div class="flow-step">PDF Upload</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-step">Text Extraction</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-step">GPT-4o Summarization</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-step">ElevenLabs Voice</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-step">Audio Output</div>
+                </div>
+                <p>Integrated with Supabase for authentication, RevenueCat for monetization, and deployed on Netlify</p>
+            </div>
+        </div>
+
+        <!-- Key Features -->
+        <div class="slide">
+            <h2>Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>📄 Smart PDF Processing</h3>
+                    <ul>
+                        <li>Drag & drop file upload</li>
+                        <li>Automatic text extraction</li>
+                        <li>Real-time processing status</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3>🧠 Advanced AI Summarization</h3>
+                    <ul>
+                        <li>Multiple summary lengths</li>
+                        <li>Context-aware processing</li>
+                        <li>Educational focus</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3>🎤 Natural Voice Synthesis</h3>
+                    <ul>
+                        <li>High-quality speech generation</li>
+                        <li>Audio download capability</li>
+                        <li>Playback controls</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3>🛍️ Educational Marketplace</h3>
+                    <ul>
+                        <li>Science kits and tools</li>
+                        <li>Educational resources</li>
+                        <li>Learning enhancement</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hackathon Challenges -->
+        <div class="slide">
+            <h2>Hackathon Challenges Addressed</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>🎤 Voice AI Challenge</h3>
+                    <p>ElevenLabs integration for speech synthesis and conversational AI capabilities</p>
+                </div>
+                <div class="feature-card">
+                    <h3>💰 Make More Money Challenge</h3>
+                    <p>RevenueCat subscription management with multiple pricing tiers and science store</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🚀 Deploy Challenge</h3>
+                    <p>Netlify hosting with continuous deployment and production-ready infrastructure</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🏢 Startup Challenge</h3>
+                    <p>Complete EdTech solution with clear monetization strategy and market potential</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sponsors -->
+        <div class="slide">
+            <h2>Our Amazing Sponsors</h2>
+            <div class="sponsors-grid">
+                <div class="sponsor-card">
+                    <img src="https://raw.githubusercontent.com/Jerryblessed/bolt-hackathon-badge/59cace5d72567411298dc94bd6e16c7612b07f48/src/public/revenuecat/wordmark-black.svg" alt="RevenueCat" class="sponsor-logo">
+                    <h3>RevenueCat</h3>
+                    <p>Subscription Management</p>
+                </div>
+                <div class="sponsor-card">
+                    <img src="https://github.com/Jerryblessed/bolt-hackathon-badge/blob/main/src/public/supabase/logo-color.png?raw=true" alt="Supabase" class="sponsor-logo">
+                    <h3>Supabase</h3>
+                    <p>Backend Services</p>
+                </div>
+                <div class="sponsor-card">
+                    <img src="https://github.com/Jerryblessed/bolt-hackathon-badge/blob/main/src/public/elevenlabs/logo-color.png?raw=true" alt="ElevenLabs" class="sponsor-logo">
+                    <h3>ElevenLabs</h3>
+                    <p>Voice AI Technology</p>
+                </div>
+                <div class="sponsor-card">
+                    <img src="https://raw.githubusercontent.com/Jerryblessed/bolt-hackathon-badge/59cace5d72567411298dc94bd6e16c7612b07f48/src/public/netlify/wordmark-color.svg" alt="Netlify" class="sponsor-logo">
+                    <h3>Netlify</h3>
+                    <p>Hosting & Deployment</p>
+                </div>
+                <div class="sponsor-card">
+                    <img src="https://github.com/Jerryblessed/bolt-hackathon-badge/blob/main/src/public/bolt-badge/black_circle_360x360/black_circle_360x360.png?raw=true" alt="Bolt" class="sponsor-logo">
+                    <h3>Bolt</h3>
+                    <p>AI Development Platform</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Future Enhancements -->
+        <div class="slide">
+            <h2>Future Roadmap</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>🗣️ Conversational AI</h3>
+                    <p>Real-time voice conversations using ElevenLabs Conversational AI SDK</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🌍 Multi-Language Support</h3>
+                    <p>Global accessibility with multiple language options</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📊 Learning Analytics</h3>
+                    <p>Advanced insights and progress tracking for educators</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📱 Mobile App</h3>
+                    <p>Native iOS and Android applications for on-the-go learning</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="cta">
+            <h2>Ready to Transform Education?</h2>
+            <p>Join thousands of students and educators who are already learning smarter with EduSummarize</p>
+            <a href="https://bolt.new" class="btn">Visit Bolt.new</a>
+            <a href="#demo" class="btn">Try Demo</a>
+        </div>
+
+        <!-- Contact -->
+        <div class="slide">
+            <h2>Thank You!</h2>
+            <p style="text-align: center; font-size: 1.5rem;">
+                Built with ❤️ for the Bolt Hackathon 2025
+            </p>
+            <p style="text-align: center; margin-top: 2rem;">
+                <strong>Empowering learners through AI-powered education technology</strong>
+            </p>
+            <div style="text-align: center; margin-top: 2rem;">
+                <img src="https://github.com/Jerryblessed/bolt-hackathon-badge/blob/main/src/public/bolt-badge/black_circle_360x360/black_circle_360x360.png?raw=true" alt="Bolt Badge" style="width: 100px; height: 100px;">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
